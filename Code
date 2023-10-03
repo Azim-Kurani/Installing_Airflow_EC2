@@ -1,0 +1,17 @@
+#Set Airflow Home (optional):
+#Airflow requires a home directory, and uses ~/airflow by default, but you can set a different location if you prefer. The AIRFLOW_HOME environment variable is used to inform Airflow of the desired location. This step of setting the environment variable should be done before installing Airflow so that the installation process knows where to store the necessary files.
+export AIRFLOW_HOME=~/airflow
+
+# Extract the version of Python you have installed. If you're currently using Python 3.11 you may want to set this manually, as noted above. Python 3.11 is not yet supported.
+PYTHON_VERSION="$(python --version | cut -d " " -f 2 | cut -d "." -f 1-2)"
+sudo yum install python3-pip
+AIRFLOW_VERSION=2.2.3
+CONSTRAINT_URL="https://raw.githubusercontent.com/apache/airflow/constraints-2.2.3/constraints-3.8.txt"
+pip install "apache-airflow[celery]==${AIRFLOW_VERSION}" --constraint "${CONSTRAINT_URL}"
+
+#Run Airflow Standalone:
+#The airflow standalone command initializes the database, creates a user, and starts all components.
+airflow standalone
+
+#Access the Airflow UI:
+#Visit localhost:8080 in your browser and log in with the admin account details shown in the terminal. Enable the example_bash_operator DAG in the home page.(id and password)
